@@ -35,3 +35,7 @@
 [submodule "Features/DEBUGGER"]
 	path = Features/DEBUGGER
 	url = https://github.com/microsoft/mu_feature_debugger.git
+[submodule "Common/FirmGuard"]
+	path = Common/FirmGuard
+    url = https://oogbuanya@dev.azure.com/oogbuanya/FirmGuard/_git/FirmGuard
+    branch = user/dorlevi/add_SB_APIs
