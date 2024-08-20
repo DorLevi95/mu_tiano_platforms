@@ -992,6 +992,11 @@ QemuQ35Pkg/Library/ResetSystemLib/StandaloneMmResetSystemLib.inf
   #########################################
   # DXE Phase modules
   #########################################
+
+  # FirmGuard components
+  SecureBootPkg/Library/DxeImageVerificationServicesLib/DxeImageVerificationServices.inf
+  SecureBootPkg/Library/AuthVariableServicesLib/AuthVariableServicesLib.inf
+
   # Reads smbios type 3 to determine volume button state.
   QemuPkg/FrontPageButtons/FrontPageButtons.inf
 

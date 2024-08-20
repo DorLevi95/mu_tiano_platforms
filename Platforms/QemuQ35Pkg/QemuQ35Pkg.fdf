@@ -27,8 +27,7 @@ DEFINE CODE_SIZE         = 0x0037C000
 DEFINE CODE_BLOCKS       = 0x37C
 DEFINE FVMAIN_SIZE       = 0x00348000
 DEFINE SECFV_OFFSET      = 0x003CC000
-DEFINE SECFV_SIZE        = 0x34000
-
+DEFINE SECFV_SIZE        = 0x14000 #0x34000 #0
 
 SET gUefiQemuQ35PkgTokenSpaceGuid.PcdOvmfFdBaseAddress     = $(FW_BASE_ADDRESS)
 SET gUefiQemuQ35PkgTokenSpaceGuid.PcdOvmfFirmwareFdSize    = $(FW_SIZE)
@@ -134,11 +133,19 @@ ErasePolarity = 1
 BlockSize     = $(BLOCK_SIZE)
 NumBlocks     = $(CODE_BLOCKS)
 
-0x00000000|$(FVMAIN_SIZE)
+0x00000000|0x00020000
+gUefiQemuQ35PkgTokenSpaceGuid.PcdOvmfSBFvBase|gUefiQemuQ35PkgTokenSpaceGuid.PcdOvmfSBFvSize
+FV = SBFV
+
+0x00020000|$(FVMAIN_SIZE)
 FV = FVMAIN_COMPACT
 
-$(FVMAIN_SIZE)|$(SECFV_SIZE)
+0x368000|$(SECFV_SIZE)
 FV = SECFV
+
+# ## FirmGuard - SecureBootPkg ##
+# 0x0035C000| 0x00020000 # FVMainSize + SecFVSize| required size for SBFV (0x119C8)
+# FV = SBFV
 
 ################################################################################
 
@@ -168,6 +175,52 @@ FV = PEIFV
 0x100000|0xC00000
 gUefiQemuQ35PkgTokenSpaceGuid.PcdOvmfDxeMemFvBase|gUefiQemuQ35PkgTokenSpaceGuid.PcdOvmfDxeMemFvSize
 FV = DXEFV
+
+################################################################################
+## FirmGuard - SecureBootPkg ##
+[FV.SBFV]
+FvNameGuid         = D0B746C5-C2A7-4876-8536-178B3AD5C0D5
+FvForceRebase      = FALSE
+BlockSize          = 0x10000
+FvAlignment        = 16
+ERASE_POLARITY     = 1
+MEMORY_MAPPED      = TRUE
+STICKY_WRITE       = TRUE
+LOCK_CAP           = TRUE
+LOCK_STATUS        = TRUE
+WRITE_DISABLED_CAP = TRUE
+WRITE_ENABLED_CAP  = TRUE
+WRITE_STATUS       = TRUE
+WRITE_LOCK_CAP     = TRUE
+WRITE_LOCK_STATUS  = TRUE
+READ_DISABLED_CAP  = TRUE
+READ_ENABLED_CAP   = TRUE
+READ_STATUS        = TRUE
+READ_LOCK_CAP      = TRUE
+READ_LOCK_STATUS   = TRUE
+
+#
+# Secure Boot Package modules
+#
+# FirmGuard - SecureBootPkg
+INF SecureBootPkg/Library/DxeImageVerificationServicesLib/DxeImageVerificationServices.inf
+INF SecureBootPkg/Library/AuthVariableServicesLib/AuthVariableServicesLib.inf
+
+################################################################################
+[Capsule.FmpCapsuleImage]
+  # normal header for FMP capsule content
+  # special Guid
+  CAPSULE_GUID = 6dcbd5ed-e82d-4c44-bda1-7194199ad92a
+  # normal header
+  CAPSULE_FLAGS = PersistAcrossReset, InitiateReset
+  # normal header
+  CAPSULE_HEADER_SIZE = 0x20
+  # The following identifies this as an FMP capsule header
+  CAPSULE_HEADER_INIT_VERSION = 0x1
+
+
+  FV = SBFV
+
 
 ################################################################################
 
@@ -635,6 +688,7 @@ FILE FV_IMAGE = 9E21FD93-9C72-4c15-8C4B-E77F1DB2D792 {
      #
      SECTION FV_IMAGE = PEIFV
      SECTION FV_IMAGE = DXEFV
+     #SECTION FV_IMAGE = SBFV
    }
  }
 

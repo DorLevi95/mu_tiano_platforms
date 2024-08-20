@@ -14,5 +14,7 @@ UefiDbgExt/x64/
 /**/Include/Generated/**
 /**/AutoGen/**
 
+venv/
+
 # Ignore Rust build output
 /target

@@ -53,6 +53,7 @@ class CommonPlatform():
         "Common/MU",
         "Common/MU_TIANO",
         "Common/MU_OEM_SAMPLE",
+        "Common/FirmGuard",
         "Features/DEBUGGER",
         "Features/DFCI",
         "Features/CONFIG",
@@ -127,6 +128,7 @@ class SettingsManager(UpdateSettingsManager, SetupSettingsManager, PrEvalSetting
             RequiredSubmodule("Features/DFCI", True),
             RequiredSubmodule("Features/CONFIG", True),
             RequiredSubmodule("Features/MM_SUPV", True),
+            RequiredSubmodule("Common/FirmGuard", True),
         ]
 
     def SetArchitectures(self, list_of_requested_architectures):

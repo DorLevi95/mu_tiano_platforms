@@ -45,6 +45,11 @@ PeiFvInitialization (
   //
   BuildFvHob (PcdGet32 (PcdOvmfDxeMemFvBase), PcdGet32 (PcdOvmfDxeMemFvSize));
 
+  //
+  // Let DXE know about the SB FV
+  //
+  BuildFvHob (PcdGet32 (PcdOvmfSBFvBase), PcdGet32 (PcdOvmfSBFvSize));
+
   SecureS3Needed = mS3Supported && FeaturePcdGet (PcdSmmSmramRequire);
 
   //

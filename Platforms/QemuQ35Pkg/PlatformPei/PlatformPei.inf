@@ -71,6 +71,9 @@
   SmmRelocationLib
 
 [Pcd]
+  # SecureBootPkg - FirmGuard #
+  gUefiQemuQ35PkgTokenSpaceGuid.PcdOvmfSBFvBase
+  gUefiQemuQ35PkgTokenSpaceGuid.PcdOvmfSBFvSize
   gUefiQemuQ35PkgTokenSpaceGuid.PcdOvmfPeiMemFvBase
   gUefiQemuQ35PkgTokenSpaceGuid.PcdOvmfPeiMemFvSize
   gUefiQemuQ35PkgTokenSpaceGuid.PcdOvmfDxeMemFvBase
